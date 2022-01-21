@@ -15,26 +15,12 @@ var mobileNumbers =
         values: ['ACTIVE', 'INACTIVE','TEMPORARILY_BARRED',' SUSPENDED']  
     }
     
-   }
+ }
+
+ // create a array of objects
 
 
-// var document = {
-//     dateOfIssue: {
-//         faker: 'date.past'
-//     },
-//     dateOfExpiry: {
-//         faker: 'date.future'
-//     },
-//     documentType: {
-//         values: ['PASSPORT', 'NATIONAL_ID']
-//     },
-//     'object.documentType=="PASSPORT",documentNumber': { 
-//         faker: 'random.number({"min": 10000000000, "max": 900000000000})'
-//     },
-//     'object.documentType=="NATIONAL_ID",documentNumber': {
-//         faker: 'random.number({"min": 100000000, "max": 900000000})'
-//     }
-// }
+
 var Natural_Subscriber = {
     dateOfBirth: {
         chance: 'birthday({ "string": true })'
@@ -69,8 +55,6 @@ var Natural_Subscriber = {
     mobileNumbers:mobileNumbers
 
 }
-
-
 
 
 
