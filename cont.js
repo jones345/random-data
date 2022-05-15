@@ -5,11 +5,11 @@ const fs = require('fs');
 
 var subscriber = []
 //1000000
-const million = '1000000'
+const million = '10000'
 const start = ()=>{
 
         
-  for(var i = 0; i < 10; i++){
+  for(var i = 0; i < million; i++){
 
     var nationalityData= null
     var documentNumberData = null;
@@ -17,8 +17,8 @@ const start = ()=>{
    const  firstNameData = faker.name.firstName()
    const lastNameData = faker.name.lastName()
    const genderData =faker.random.arrayElement(["FEMALE", "MALE"])
-   
-   const msisdnData =`${faker.datatype.number({ min: 71000000, max: 71099999 })}`
+   const MNOref = faker.random.alphaNumeric(12)
+   const msisdnData =`${faker.datatype.number({ min: 75800000, max: 75899999})}`
    const  numberStatusData =faker.random.arrayElement(["INACTIVE", "ACTIVE","TEMPORARILY_BARRED","SUSPENDED"])
     const cityTownData = faker.address.city()
     const dateOfbirthdata = faker.date.between('2009-01-01', '2020-01-01')
@@ -44,14 +44,16 @@ const start = ()=>{
         nationality:nationalityData,
         dateOfBirth:dateOfbirthdata,
         sex:genderData,
+
         msisdn:msisdnData,
-        mnoReference:"MNOref",
+        mnoReference:MNOref,
         
         documents: [{
             documentNumber: documentNumberData,
             documentType: documentTypeData,
             dateOfIssue: dateOfIssueData,
-            expiryDate: expiryDateData
+            expiryDate: expiryDateData,
+            
         }],
     
         addresses:[{
@@ -66,8 +68,8 @@ const start = ()=>{
 
         setTimeout(() => {
              console.log(subscriber.length)
-            fs.writeFileSync(`subscriber_data10.json`, JSON.stringify(subscriber), 'utf8');
-        }, 5000);
+            fs.writeFileSync(`subscriber_data_BTC_10K.json`, JSON.stringify(subscriber), 'utf8');
+        }, 10000);
     }
 
 
