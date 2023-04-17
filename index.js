@@ -1,70 +1,45 @@
- var mocker = require('mocker-data-generator').default 
+const faker = require('@faker-js/faker');
+const fs = require('fs');
 
+const subscribers = [];
 
+for (let i = 0; i < 10; i++) {
+  const country = faker.address.country();
 
+  const documentType = country === 'Botswana' ? 'NATIONAL_ID' : faker.random.arrayElement(['PASSPORT', 'NATIONAL_ID']);
 
-var mobileNumbers = 
-    {
+  const subscriber = {
+    msisdn: `${faker.datatype.number({ min: 73900000, max: 73999999 })}`,
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    country,
+    dateOfBirth: faker.date.between('2009-01-01', '2020-01-01'),
+    sex: faker.random.arrayElement(['FEMALE', 'MALE']),
+    documents: [
+      {
+        documentNumber: `${faker.datatype.number({ min: 10000000, max: 90000000 })}`,
+        documentType,
+        dateOfIssue: '2022-08-01T12:30:10.734Z',
+        expiryDate: '2024-08-01T12:30:10.734Z',
+      },
+    ],
+    addresses: [
+      {
+        plotWardBox: faker.address.streetAddress(),
+        cityTown: faker.address.secondaryAddress(),
+        addressType: 'PHYSICAL',
+      },
+    ],
+  };
 
-
-    msisdn: {
-        faker: 'datatype.number({"min": 71000000, "max": 71099999})'
-    }
-    ,
-    numberStatus: {
-        values: ['ACTIVE', 'INACTIVE','TEMPORARILY_BARRED',' SUSPENDED']  
-    }
-    
- }
-
- // create a array of objects
-
-
-
-var Natural_Subscriber = {
-    dateOfBirth: {
-        chance: 'birthday({ "string": true })'
-    },
-    gender:{
-        values: ['MALE', 'FEMALE']   
-    },
-    firstName:{
-        faker: 'name.firstName'
-    },
-    lastName:{
-        faker: 'name.lastName'
-    },
-    document:{
-
-        dateOfIssue: {
-            faker: 'date.past'
-        },
-        dateOfExpiry: {
-            faker: 'date.future'
-        },
-        documentType: {
-            values: ['PASSPORT', 'NATIONAL_ID']
-        },
-        'object.documentType=="PASSPORT",documentNumber': { 
-            faker: 'random.number({"min": 10000000000, "max": 900000000000})'
-        },
-        'object.documentType=="NATIONAL_ID",documentNumber': {
-            faker: 'random.number({"min": 100000000, "max": 900000000})'
-        }
-    },
-    mobileNumbers:mobileNumbers
-
+  subscribers.push(subscriber);
 }
 
-
-
-mocker()
-.schema('Natural_Subscriber', Natural_Subscriber,1)
-.build()
-.then(function(data) {
-    // json and excel files are generated in the same folder
-    console.log(JSON.stringify(data.Natural_Subscriber, null, 2));
-
-    // combine both arrays
-   
-})
+(async () => {
+  try {
+    await fs.promises.writeFile('natural_subscriber_btcl.json', JSON.stringify(subscribers), 'utf8');
+    console.log('File written successfully!');
+  } catch (error) {
+    console.error('Error writing file:', error);
+  }
+})();
